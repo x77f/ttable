@@ -26,6 +26,7 @@ function TruthTable(str) {
     return vars;
   }
 
+  let expr = "a or b";
   const vars = getVars(expr);
   const logic = Function(vars, `return ${expr}`);
 
