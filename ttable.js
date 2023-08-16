@@ -25,8 +25,23 @@ function TruthTable(str) {
 
     return vars;
   }
-  
-  const vars = getVars(expr);
+
+  let vars = getVars(expr);
+
+  if (vars.length < 0 || vars.length > 4) {
+    throw new Error(
+      `The expression ''${expr}' containes either no variable or more than 4 variables.`,
+      { cause: { code: "LimitError" } },
+    );
+  }
+
+  if (vars.length === 1 && expr.search(/[\^\&\|]+/g) !== -1) {
+    throw new Error(
+      `The expression '${expr}' contains only one variable but one or more binary operators.`,
+      { cause: { code: "OperatorError" } },
+    );
+  }
+
   const logic = Function(vars, `return ${expr}`);
 
   function inputsFor(rows, columns) {
@@ -63,14 +78,24 @@ function TruthTable(str) {
       };
 
       for (let j = 0; j < columns; j++) {
-        states[`state_${i + 1}`]["inputs"][String.fromCharCode(97+j)] = cases[i][j];
+        states[`state_${i + 1}`]["inputs"][String.fromCharCode(97 + j)] =
+          cases[i][j];
       }
 
-      states[`state_${i + 1}`]["output"] = `${logic(...cases[i])}`;
+      states[`state_${i + 1}`]["output"] = Number(`${logic(...cases[i])}`);
     }
 
     return states;
   }
 
   return Tabulize(cases, expr);
+}
+
+// This section is for testing.
+// Recommended Runtime: Node.js
+
+try {
+  console.log(TruthTable("a xor b and c or d"));
+} catch (err) {
+  console.log(`${err.cause.code}: ${err.message}`);
 }
