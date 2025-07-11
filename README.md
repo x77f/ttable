@@ -1,14 +1,13 @@
 # ttable
 a simple truth table generator
 
-## Update
-> Date: June 11, 2025
->
+## Update: June 11, 2025
+
 > I was in love with JS back in 2022-23.
 > Although, I didn't invest much time on learning JS.
 > 
 > This toy project started out when I was in college.
-> On a random day of my Eid vacation, I decided to
+> On a random day of my winter vacation, I decided to
 > refactor and improve this little toy.
 > I could make it usable, and it helped me a lot
 > to learn about _Boolean Algebra._
